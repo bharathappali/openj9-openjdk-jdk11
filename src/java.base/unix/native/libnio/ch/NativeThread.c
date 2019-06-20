@@ -36,6 +36,9 @@
 #ifdef __linux__
   #include <pthread.h>
   /* Also defined in net/linux_close.c */
+#if !defined(_GLIBC_)
+#define __SIGRTMAX SIGRTMAX
+#endif /* !defined(_GLIBC_) */
   #define INTERRUPT_SIGNAL (__SIGRTMAX - 2)
 #elif _AIX
   #include <pthread.h>

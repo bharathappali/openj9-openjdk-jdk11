@@ -224,7 +224,7 @@ $(eval $(call SetupJdkLibrary, BUILD_LIBAWT, \
     OPTIMIZATION := LOW, \
     CFLAGS := $(CFLAGS_JDKLIB) $(LIBAWT_CFLAGS), \
     EXTRA_HEADER_DIRS := $(LIBAWT_EXTRA_HEADER_DIRS), \
-    DISABLED_WARNINGS_gcc := sign-compare unused-result maybe-uninitialized \
+    DISABLED_WARNINGS_gcc := stringop-truncation sign-compare unused-result maybe-uninitialized \
         format-nonliteral parentheses, \
     DISABLED_WARNINGS_clang := logical-op-parentheses extern-initializer, \
     DISABLED_WARNINGS_solstudio := E_DECLARATION_IN_CODE, \
@@ -332,7 +332,7 @@ ifeq ($(findstring $(OPENJDK_TARGET_OS), windows macosx), )
         CFLAGS := $(CFLAGS_JDKLIB) $(LIBAWT_XAWT_CFLAGS) \
             $(X_CFLAGS), \
         WARNINGS_AS_ERRORS_xlc := false, \
-        DISABLED_WARNINGS_gcc := type-limits pointer-to-int-cast \
+        DISABLED_WARNINGS_gcc := stringop-truncation type-limits pointer-to-int-cast \
             unused-result maybe-uninitialized format \
             format-security int-to-pointer-cast parentheses \
             implicit-fallthrough, \
@@ -341,7 +341,7 @@ ifeq ($(findstring $(OPENJDK_TARGET_OS), windows macosx), )
         LDFLAGS := $(LDFLAGS_JDKLIB) \
             $(call SET_SHARED_LIBRARY_ORIGIN) \
             -L$(INSTALL_LIBRARIES_HERE), \
-        LIBS :=  $(X_LIBS) $(LIBAWT_XAWT_LIBS), \
+        LIBS :=  $(X_LIBS) $(LIBAWT_XAWT_LIBS) -lexecinfo, \
     ))
 
     $(BUILD_LIBAWT_XAWT): $(call FindLib, java.base, java)
@@ -383,7 +383,7 @@ $(eval $(call SetupJdkLibrary, BUILD_LIBLCMS, \
         common/awt/debug \
         libawt/java2d, \
     HEADERS_FROM_SRC := $(LIBLCMS_HEADERS_FROM_SRC), \
-    DISABLED_WARNINGS_gcc := format-nonliteral type-limits misleading-indentation, \
+    DISABLED_WARNINGS_gcc := cast-function-type stringop-truncation format-nonliteral type-limits misleading-indentation, \
     DISABLED_WARNINGS_clang := tautological-compare, \
     DISABLED_WARNINGS_solstudio := E_STATEMENT_NOT_REACHED, \
     DISABLED_WARNINGS_microsoft := 4819, \
@@ -607,7 +607,7 @@ $(eval $(call SetupJdkLibrary, BUILD_LIBFONTMANAGER, \
     CFLAGS_windows = -DCC_NOEX, \
     EXTRA_HEADER_DIRS := $(LIBFONTMANAGER_EXTRA_HEADER_DIRS), \
     WARNINGS_AS_ERRORS_xlc := false, \
-    DISABLED_WARNINGS_gcc := sign-compare int-to-pointer-cast \
+    DISABLED_WARNINGS_gcc := class-memaccess sign-compare int-to-pointer-cast \
         type-limits missing-field-initializers implicit-fallthrough strict-aliasing, \
     DISABLED_WARNINGS_CXX_gcc := reorder delete-non-virtual-dtor strict-overflow \
         maybe-uninitialized, \

@@ -53,7 +53,7 @@ TARGETS += $(BUILD_LIBDT_SOCKET)
 $(eval $(call SetupJdkLibrary, BUILD_LIBJDWP, \
     NAME := jdwp, \
     OPTIMIZATION := LOW, \
-    CFLAGS := $(CFLAGS_JDKLIB) -DJDWP_LOGGING, \
+    CFLAGS := $(CFLAGS_JDKLIB) -DJDWP_LOGGING -Wno-format-truncation, \
     EXTRA_HEADER_DIRS := \
       include \
       libjdwp/export, \

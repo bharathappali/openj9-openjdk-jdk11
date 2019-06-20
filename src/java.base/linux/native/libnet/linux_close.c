@@ -40,6 +40,9 @@
 #include "jvm.h"
 #include "net_util.h"
 
+#ifndef __SIGRTMAX
+#define __SIGRTMAX SIGRTMAX
+#endif /* __SIGRTMAX */
 /*
  * Stack allocated by thread when doing blocking operation
  */
@@ -60,7 +63,11 @@ typedef struct {
 /*
  * Signal to unblock thread
  */
+#if defined(_GLIBC_)
 static int sigWakeup = (__SIGRTMAX - 2);
+#else
+#define sigWakeup (__SIGRTMAX - 2)
+#endif /* defined(_GLIBC_) */
 
 /*
  * fdTable holds one entry per file descriptor, up to a certain

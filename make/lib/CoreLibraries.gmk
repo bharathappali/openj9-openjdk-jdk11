@@ -120,6 +120,7 @@ $(eval $(call SetupJdkLibrary, BUILD_LIBJAVA, \
     NAME := java, \
     OPTIMIZATION := HIGH, \
     CFLAGS := $(CFLAGS_JDKLIB) \
+	-Wno-stringop-truncation \
         $(LIBJAVA_CFLAGS), \
     System.c_CFLAGS := $(VERSION_CFLAGS), \
     jdk_util.c_CFLAGS := $(VERSION_CFLAGS), \
@@ -184,8 +185,9 @@ $(eval $(call SetupJdkLibrary, BUILD_LIBJIMAGE, \
     NAME := jimage, \
     TOOLCHAIN := TOOLCHAIN_LINK_CXX, \
     OPTIMIZATION := LOW, \
-    CFLAGS := $(CFLAGS_JDKLIB), \
-    CXXFLAGS := $(CXXFLAGS_JDKLIB), \
+    CFLAGS := $(CFLAGS_JDKLIB) \
+		-Wno-stringop-truncation -Wno-stringop-overflow, \
+    CXXFLAGS := $(CXXFLAGS_JDKLIB) -Wno-stringop-truncation -Wno-stringop-overflow, \
     CFLAGS_unix := -UDEBUG, \
     LDFLAGS := $(LDFLAGS_JDKLIB) $(LDFLAGS_CXX_JDK) \
         $(call SET_SHARED_LIBRARY_ORIGIN), \
@@ -260,7 +262,7 @@ $(eval $(call SetupJdkLibrary, BUILD_LIBJLI, \
     EXCLUDE_FILES := $(LIBJLI_EXCLUDE_FILES), \
     EXTRA_FILES := $(LIBJLI_EXTRA_FILES), \
     OPTIMIZATION := HIGH, \
-    CFLAGS := $(LIBJLI_CFLAGS_JDKLIB) $(LIBJLI_CFLAGS), \
+    CFLAGS := $(LIBJLI_CFLAGS_JDKLIB) $(LIBJLI_CFLAGS) -Wno-cast-function-type, \
     DISABLED_WARNINGS_solstudio := \
         E_ASM_DISABLES_OPTIMIZATION \
         E_STATEMENT_NOT_REACHED, \
